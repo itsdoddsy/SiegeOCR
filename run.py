@@ -2,6 +2,11 @@ import cv2, mss, os, numpy as np
 from skimage.measure import compare_ssim as ssim
 
 
+def clear():
+    # Don't do operating system check (clear/cls)
+    # because Siege only runs natively on Windows
+    os.system('cls')
+
 def main():
     # Define our capture area
     area = {"left": 937, "top": 73, "width": 47, "height": 47}
@@ -24,8 +29,14 @@ def main():
 
             # Display our capture. Not really necessary but
             # its nice to know what the program sees.
+            # Disable it by putting a "#" at the start.
+            # Just means one less window open!
             cv2.imshow("Siege capture", capture)
+
+            # Output our SSIM result
             print("SSIM: {:.1f}".format(ssim(capture, timer) * 100))
+            # Only show one SSIM result so we don't get a spammed console.
+            clear()
 
             # Set a "quit" bind in our OpenCV window.
             if cv2.waitKey(25) & 0xFF == ord("q"):
