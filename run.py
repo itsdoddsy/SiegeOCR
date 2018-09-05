@@ -7,6 +7,9 @@ def clear():
     # because Siege only runs natively on Windows
     os.system('cls')
 
+def greyscale_img(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
 def main():
     # Define our capture area
     area = {"left": 937, "top": 73, "width": 47, "height": 47}
@@ -15,17 +18,15 @@ def main():
     # Only needed because my IDE doesn't like relative directories.
     # Works fine in a terminal without this, but it works with it too.
     _CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
-    # Open our timer picture to compare to
-    timer = cv2.imread(_CURRENT_DIR + '\\timer.png')
-    # Convert it to a greyscale image
-    timer = cv2.cvtColor(timer, cv2.COLOR_BGR2GRAY)
+
+    # Open our comparison picture and greyscale it.
+    timer = greyscale_img(cv2.imread(_CURRENT_DIR + '\\timer.png'))
 
     # Now grab that area for the duration of the program
     with mss.mss() as sct:
         while True:
-            capture = np.array(sct.grab(area))
-            # Convert it to a greyscale image
-            capture = cv2.cvtColor(capture, cv2.COLOR_BGR2GRAY)
+            # Also convert it to a greyscale image
+            capture = greyscale_img(np.array(sct.grab(area)))
 
             # Display our capture. Not really necessary but
             # its nice to know what the program sees.
