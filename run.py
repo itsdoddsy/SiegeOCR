@@ -10,11 +10,15 @@ def main():
 
     # Open our timer picture to compare to
     timer = cv2.imread('timer.png')
+    # Convert it to a greyscale image
+    timer = cv2.cvtColor(timer, cv2.COLOR_BGR2GRAY)
 
-    # Now grab that area
+    # Now grab that area for the duration of the program
     with mss.mss() as sct:
         while True:
             capture = numpy.array(sct.grab(area))
+            # Convert it to a greyscale image
+            capture = cv2.cvtColor(capture, cv2.COLOR_BGR2GRAY)
 
             # Display our capture. Not really necessary but
             # its nice to know what the program sees.
