@@ -1,8 +1,5 @@
-import cv2
-import numpy
-import mss
+import cv2, mss, os, numpy as np
 from skimage.measure import compare_ssim as ssim
-import os
 
 
 def main():
@@ -21,7 +18,7 @@ def main():
     # Now grab that area for the duration of the program
     with mss.mss() as sct:
         while True:
-            capture = numpy.array(sct.grab(area))
+            capture = np.array(sct.grab(area))
             # Convert it to a greyscale image
             capture = cv2.cvtColor(capture, cv2.COLOR_BGR2GRAY)
 
@@ -30,6 +27,7 @@ def main():
             cv2.imshow("Siege capture", capture)
             print("SSIM: {:.1f}".format(ssim(capture, timer) * 100))
 
+            # Set a "quit" bind in our OpenCV window.
             if cv2.waitKey(25) & 0xFF == ord("q"):
                 cv2.destroyAllWindows()
                 break
