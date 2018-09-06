@@ -19,6 +19,9 @@ def main():
     # Works fine in a terminal without this, but it works with it too.
     _CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+    # Initialise last output
+    last_output = None
+
     # Open our comparison picture and greyscale it.
     timer = greyscale_img(cv2.imread(_CURRENT_DIR + '\\timer.png'))
 
@@ -38,10 +41,12 @@ def main():
             # We're multiplying it by 100 so it's a bit of a nicer number,
             # rather than a bunch of decimals.
             output = "SSIM: {:.1f}".format(ssim(capture, timer) * 100)
-            # Clear the console for the next SSIM to show.
-            clear()
-            # Output our SSIM result
-            print(output)
+            if output != last_output:
+                # Clear the console for the next SSIM to show.
+                clear()
+                # Output our SSIM result
+                print(output)
+            last_output = output
 
             # Set a "quit" bind in our OpenCV window.
             if cv2.waitKey(25) & 0xFF == ord("q"):
