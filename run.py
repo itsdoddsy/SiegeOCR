@@ -33,11 +33,15 @@ def main():
             # Disable it by putting a "#" at the start.
             # Just means one less window open!
             cv2.imshow("Siege capture", capture)
-
-            # Output our SSIM result
-            print("SSIM: {:.1f}".format(ssim(capture, timer) * 100))
-            # Only show one SSIM result so we don't get a spammed console.
+            
+            # Now to calculate our SSIM!
+            # We're multiplying it by 100 so it's a bit of a nicer number,
+            # rather than a bunch of decimals.
+            output = "SSIM: {:.1f}".format(ssim(capture, timer) * 100)
+            # Clear the console for the next SSIM to show.
             clear()
+            # Output our SSIM result
+            print(output)
 
             # Set a "quit" bind in our OpenCV window.
             if cv2.waitKey(25) & 0xFF == ord("q"):
