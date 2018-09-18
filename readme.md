@@ -5,7 +5,7 @@ SiegeOCR was initially developed as a test project to see if I could successfull
 Using OpenCV to view our screen, we check that what is displayed matches our comparison data - in the case of SiegeOCR, we check if what is displayed matches [the timer that is displayed when a bomb is being defused.](timer.png)
 We calculate the difference between the images using SSIM (Structural Similarity Index), and from this we get a score.
 
-Also, yes, I know. OCR isn't used at all in this program. It just sounded super catchy.
+Also, yes, I know. OCR isn't used at all in this program (yet). It just sounded super catchy.
 
 ## Installation
 It's recommended to create a virtual environment for this program.
