@@ -12,7 +12,8 @@ def greyscale_img(image):
 
 def main():
     # Define our capture area
-    area = {"left": 937, "top": 73, "width": 47, "height": 47}
+    timer_area = {"left": 937, "top": 73, "width": 47, "height": 47}
+    wl_area = {"left": 623, "top": 233, "width": 609, "height": 331}
 
     # Get current directory of the script.
     # Only needed because my IDE doesn't like relative directories.
@@ -23,24 +24,39 @@ def main():
     last_output = None
 
     # Open our comparison picture and greyscale it.
-    timer = greyscale_img(cv2.imread(_CURRENT_DIR + '\\timer.png'))
+    timer_img = greyscale_img(cv2.imread(_CURRENT_DIR + '\\timer.png'))
 
     # Now grab that area for the duration of the program
     with mss.mss() as sct:
         while True:
             # Also convert it to a greyscale image
-            capture = greyscale_img(np.array(sct.grab(area)))
+            grey_timer_area = greyscale_img(np.array(sct.grab(timer_area)))
+            grey_wl_area = greyscale_img(np.array(sct.grab(wl_area)))
 
-            # Display our capture. Not really necessary but
+            # Display our captures. Not really necessary but
             # its nice to know what the program sees.
             # Disable it by putting a "#" at the start.
             # Just means one less window open!
-            cv2.imshow("Siege capture", capture)
+            cv2.imshow("Text capture", grey_wl_area)
+
+            # Doing some funky magic because the timer area is
+            # so small that it's hard to move around without
+            # right clicking the top right and hitting "move".
+
+            # This will enable resize controls on the Timer window.
+            cv2.namedWindow("Timer capture", cv2.WINDOW_NORMAL)
+
+            # Uncommenting this will make it always open at the
+            # specified size. Leave it commented if you want,
+            # I'm not the boss of you.
+            #cv2.resizeWindow("Timer capture", 200,47)
+
+            cv2.imshow("Timer capture", grey_timer_area)
             
             # Now to calculate our SSIM!
             # We're multiplying it by 100 so it's a bit of a nicer number,
             # rather than a bunch of decimals.
-            output = "SSIM: {:.1f}".format(ssim(capture, timer) * 100)
+            output = "SSIM: {:.1f}".format(ssim(grey_timer_area, timer_img) * 100)
             if output != last_output:
                 # Clear the console for the next SSIM to show.
                 clear()
