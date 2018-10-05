@@ -24,7 +24,7 @@ def main():
     last_output = None
 
     # Open our comparison picture and greyscale it.
-    timer_img = greyscale_img(cv2.imread(_CURRENT_DIR + '\\timer.png'))
+    timer_img = greyscale_img(cv2.imread(_CURRENT_DIR + '\\image_checks\\timer.png'))
 
     # Now grab that area for the duration of the program
     with mss.mss() as sct:
